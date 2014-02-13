@@ -16,9 +16,9 @@ var initialize = exports.initialize = function(ev){
         rcl.subscribe(CHANNEL);
         rcl.on('message', function(channel, message){
             var w = JSON.parse(message);
+            obj[w.key] = w.data;
             ev.emit(w.key, w.data);
         });
-        console.log(obj);
     });
     return function(){
         return obj;

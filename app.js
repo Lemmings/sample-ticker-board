@@ -4,7 +4,6 @@ var connect = require('connect');
 var httpServer = connect()
     .use(connect.compress())
     .use(connect.static(__dirname + '/webroot'))
-    .use(connect.staticCache())
     .listen(9999);
 var io = require('socket.io').listen(httpServer);
 
@@ -20,8 +19,6 @@ ev.on('monatr', function(data){
     broadcast('monatr', data);
 });
 var getCurrentTick = ticker_board.initialize(ev);
-
-
 
 var sockets = {};
 var uniqid = 0;
