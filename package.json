@@ -6,6 +6,8 @@
     "node": ">=0.10"
   },
   "dependencies": {
+    "connect": "",
+    "socket.io": "",
     "redis": ""
   }
 }

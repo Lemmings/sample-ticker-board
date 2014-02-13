@@ -1,17 +1,28 @@
 var redis = require('redis');
-var rcl = redis.createClient();
 
-rcl.hgetall('current_tick', function(err, data){
-    var obj = {
-        mtgox : JSON.parse(data.mtgox),
-        btce : JSON.parse(data.btce),
-        monatr : JSON.parse(data.monatr),
-    };
-    rcl.subscribe('current_tick');
-    rcl.on('message', function(channel, message){
-        var w = JSON.parse(message);
-        obj[w.key] = w.data;
-        console.log(obj[w.key]);
+var CHANNEL = 'current_tick';
+
+var initialize = exports.initialize = function(ev){
+    var obj = {};
+    var rcl = redis.createClient();
+    rcl.hgetall(CHANNEL, function(err, data){
+        obj.mtgox = JSON.parse(data.mtgox);
+        obj.btce = JSON.parse(data.btce);
+        obj.monatr = JSON.parse(data.monatr);
+
+        ev.emit('mtgox', obj.mtgox);
+        ev.emit('btce', obj.btce);
+        ev.emit('monatr', obj.monatr);
+        rcl.subscribe(CHANNEL);
+        rcl.on('message', function(channel, message){
+            var w = JSON.parse(message);
+            ev.emit(w.key, w.data);
+        });
+        console.log(obj);
     });
-    console.log(obj);
-});
+    return function(){
+        return obj;
+    }
+}
+
+

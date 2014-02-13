@@ -1,0 +1,22 @@
+.ticker{
+width: 100%;
+border-collapse: collapse;
+border-right: 1px solid #999;
+}
+.ticker th{
+width: 25%;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #fff;
+background-color: #555;
+border-left: 5px solid #ff6633; 
+border-top: 1px solid #fff;
+}
+.ticker td{
+width: 25%;
+padding: 6px;
+background-color: #fff;
+border-bottom: 1px solid #999;
+border-left: 1px solid #999;
+}
